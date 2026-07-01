@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
-<body class="bg-info-subtle">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
-    <div class="container" style="border-style: dashed;" >
-        <div class="row" >
+<body class="bg-info-subtle">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <div class="container">
+        <!-- <div class="row" >
             <div class="col" style="border-style: solid;">
                 Column-1
             </div>
@@ -20,7 +25,195 @@
             <div class="col">
                 Column-3
             </div>
+        </div> -->
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">ChaloChale</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu"
+                            aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="menu">
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="destinations.html">Destinations</a></li>
+                                <li class="nav-item"><a class="nav-link" href="packages.html">Packages</a></li>
+                                <li class="nav-item"><a class="nav-link" href="booking.html">Bookings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                            </ul>
+                            <a href="signup.html" class="btn btn-warning ms-lg-3">Signup</a>
+                            <a href="login.html" class="btn btn-primary ms-lg-3">Login</a>
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
         </div>
     </div>
+
+    <!-- Carousal section -->
+
+    <div id="carouselExampleCaptions" class="carousel slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="../ChaloChale-Travel-App/images/b1.jpeg" class="d-block w-100" height="570" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Explore Beautiful Beaches</h5>
+                    <p>Plan your next vacation with chale chalo.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="../ChaloChale-Travel-App/images/b2.jpeg" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Explore Beautiful Beaches</h5>
+                    <p>Plan your next vacation with chale chalo.</p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="../ChaloChale-Travel-App/images/b3.jpeg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Explore Beautiful Beaches</h5>
+                <p>Plan your next vacation with chale chalo.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+    </div>
+
+    <!-- Services Section-->
+    <div class="row">
+        <div class="col-md-12">
+            <section class="py-5 bg-light">
+                <div class="container">
+                    <h2 class="text-center fw-bold mb-4">Why Choose Chalo Chale ?</h2>
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-4">
+                            <i></i>
+                            <h5 class="fw-bold">Easy Bookings</h5>
+                            <p>Book travel packages quickly with our simple booking system.</p>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <i></i>
+                            <h5 class="fw-bold">Best Hotels</h5>
+                            <p>We provide comfortable hotels stays at affortable prices.</p>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <i></i>
+                            <h5 class="fw-bold">24/7 Support</h5>
+                            <p>Our travel support team is available anytime for assistance.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- Destination Cards Section-->
+
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-4">Popular Destinations</h2>
+            <div class="row">
+                <!--1st card-->
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow">
+                        <img src="https://lh3.googleusercontent.com/grass-cs/ANxoTn1HTXeMdeKft6pVN8nUoRHVqQSO6yv7Qb9aAUtRi5RIlTK4xBB55psrC4cJZiwdtr4WcEzL7Ui-Pe-Uj8tKje06PlKcb7muP8I2eTmC8Am_5GSHoAsrwQbDDcVeFoIkWQG7pZAS=w270-h312-n-k-no"
+                            class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Agra</h5>
+                            <p class="card-text">Visit the Taj Mahal and explore mughal history.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!--2nd card-->
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow">
+                        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGvZRtT0pl0FxarM-biKlOB0PiFgWSp3a4RwKjCZIyZDPY0FktmgjrvSZ_H1L63jUKwsDsHdw7ZCGACd7ujzJjXfGjva_wgKfk2qnm63qDnAwI9LlAwU69yRomH9YL_Umr0j7dBgEORTNHi=s1360-w1360-h1020-rw"
+                            alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">India Gate</h5>
+                            <p class="card-text">Visit the India Gate and explore India.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!--3rd card-->
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow">
+                        <img src="https://lh3.googleusercontent.com/grass-cs/ANxoTn2sjl-Yt0xnq6ONeA3LV2WEaRUiPRiXXXShNf8XQ33IwhDKth2JfKlHtdgoalunJK-HYECkLjrpebE_LEZ2Q9gV0mTYJ7E66yrkAGhlzuFHshaEWAsv1cx4ZrNuMgDL42SKxZo3=w270-h312-n-k-no"
+                            alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Qutb Minar</h5>
+                            <p class="card-text">Visit the Qutb Minar and explore India history.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Packages Section-->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-4">Featured Packages</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">Goa Beach Packages</h5>
+                            <p class="card-text">Duration 5-days/4-Nights</p>
+                            <p class="text-success fw-bold">₹15,444</p>
+                            <a href="#" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow">
+                        <div class="card-body">
+                           <h5 class="card-title">Manali Adventure Packages</h5>
+                            <p class="card-text">Duration 6-days/5-Nights</p>
+                            <p class="text-success fw-bold">₹18,499</p>
+                            <a href="#" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">Kerla Backwater Packages</h5>
+                            <p class="card-text">Duration 4-days/3-Nights</p>
+                            <p class="text-success fw-bold">₹12,999</p>
+                            <a href="#" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+
 </body>
+
 </html>
