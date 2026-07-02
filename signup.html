@@ -1,11 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign-Up</title>
+    <title>Sign Up - ChaloChale Travel App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e8ade8 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .signup-card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .signup-card .card-body {
+            padding: 3rem;
+        }
+        
+        .signup-card h2 {
+            color: #f0a2e2;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .signup-card .form-control {
+            border-radius: 10px;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .signup-card .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .signup-card .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .signup-card .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .signup-card .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .signup-card .form-check-input:checked {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+        
+        .signup-card a {
+            color: #667eea;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .signup-card a:hover {
+            color: #764ba2;
+        }
+        
+        .input-icon {
+            position: relative;
+        }
+        
+        .input-icon i {
+            position: absolute;
+            left: 15px;
+            top: 70%;
+            transform: translateY(-50%);
+            color: #667eea;
+        }
+        
+        .input-icon .form-control {
+            padding-left: 45px;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            color: #fff !important;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.8) !important;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="index.html">ChaloChale</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu"
+                            aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="menu">
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="destinations.html">Destinations</a></li>
+                                <li class="nav-item"><a class="nav-link" href="packages.html">Packages</a></li>
+                                <li class="nav-item"><a class="nav-link" href="booking.html">Bookings</a></li>
+                                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                            </ul>
+                            <a href="signup.html" class="btn btn-warning ms-lg-3 active">Signup</a>
+                            <a href="login.html" class="btn btn-primary ms-lg-3">Login</a>
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Section -->
+    <section class="py-5 mt-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5">
+                    <div class="card signup-card">
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-user-plus fa-3x mb-3" style="color: #667eea;"></i>
+                                <h2 class="fw-bold">Create Account</h2>
+                                <p class="text-muted">Join ChaloChale and start your journey</p>
+                            </div>
+                            
+                            <form>
+                                <div class="mb-3 input-icon">
+                                    <label for="fullName" class="form-label">Full Name</label>
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
+                                </div>
+                                
+                                <div class="mb-3 input-icon">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                                </div>
+                                
+                                <div class="mb-3 input-icon">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <i class="fas fa-phone"></i>
+                                    <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+                                </div>
+                                
+                                <div class="mb-3 input-icon">
+                                    <label for="password" class="form-label">Password</label>
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" class="form-control" id="password" placeholder="Create a password" required>
+                                </div>
+                                
+                                <div class="mb-3 input-icon">
+                                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
+                                </div>
+                                
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                                    <label class="form-check-label" for="agreeTerms">I agree to the <a href="#">Terms & Conditions</a></label>
+                                </div>
+                                
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-user-plus me-2"></i>Sign Up
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <hr class="my-4">
+                            
+                            <div class="text-center">
+                                <p class="mb-0">Already have an account? <a href="login.html" class="text-decoration-none fw-bold">Login</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p class="mb-0">
+            &copy; 2026 ChaloChale Travel App | Designed with Bootstrap
+        </p>
+    </footer>
 </body>
+
 </html>
