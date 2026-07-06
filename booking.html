@@ -4,32 +4,619 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking</title>
+    <title>Bookings - ChaloChale Travel App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Navbar Styles */
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 80%;
+        }
+        
+        .nav-link:hover {
+            color: #fff !important;
+        }
+        
+        .nav-link.active {
+            color: #fff !important;
+            font-weight: 600;
+        }
+        
+        .nav-link.active::after {
+            width: 80%;
+        }
+        
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.5s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-warning {
+            border-radius: 10px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(56, 239, 125, 0.4);
+        }
+        
+        /* Card Styles */
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card:hover::before {
+            opacity: 1;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+        
+        .card-body {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Section Styles */
+        .section-title {
+            color: #667eea;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .service-icon:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+        
+        .bg-light {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            padding: 120px 0 80px;
+            background: rgba(255, 255, 255, 0.95);
+            margin-top: 80px;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Form Styles */
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            padding: 12px 15px;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .form-select {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            padding: 12px 15px;
+        }
+        
+        .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        /* Booking Steps */
+        .step-card {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .step-card:hover .step-number {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Testimonial */
+        .testimonial-card {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .testimonial-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid #667eea;
+        }
+        
+        /* FAQ */
+        .accordion-button {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: none;
+            border-radius: 10px !important;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .accordion-body {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 0 0 10px 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Advanced Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+        
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .fade-in-left {
+            animation: fadeInLeft 0.6s ease forwards;
+        }
+        
+        .fade-in-right {
+            animation: fadeInRight 0.6s ease forwards;
+        }
+        
+        .scale-in {
+            animation: scaleIn 0.6s ease forwards;
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .slide-in {
+            animation: slideIn 0.8s ease forwards;
+        }
+        
+        .bounce-animation {
+            animation: bounce 2s ease infinite;
+        }
+        
+        .rotate-animation {
+            animation: rotate 20s linear infinite;
+        }
+        
+        .shimmer-animation {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        .glow-animation {
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+        
+        .delay-4 {
+            animation-delay: 0.8s;
+        }
+        
+        .stagger-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .stagger-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .stagger-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .stagger-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        .stagger-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+        
+        .stagger-card:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+        
+        /* Scroll animation classes */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+        
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Particle effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
-    <!--Navbar Section-->
+
     <div class="container">
+        
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#">ChaloChale</a>
+                        <a class="navbar-brand" href="index.html"><i class="fas fa-plane-departure me-2"></i>ChaloChale</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu"
                             aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="menu">
                             <ul class="navbar-nav ms-auto">
-                                <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                                 <li class="nav-item"><a class="nav-link" href="destinations.html">Destinations</a></li>
                                 <li class="nav-item"><a class="nav-link" href="packages.html">Packages</a></li>
-                                <li class="nav-item"><a class="nav-link" href="booking.html">Bookings</a></li>
+                                <li class="nav-item"><a class="nav-link active" href="booking.html">Bookings</a></li>
                                 <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
                             </ul>
                             <a href="signup.html" class="btn btn-warning ms-lg-3">Signup</a>
@@ -42,6 +629,386 @@
         </div>
     </div>
 
+    <!-- Hero Section -->
+    <section class="hero-section fade-in-up">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 hero-content">
+                    <h1 class="mb-4">Book Your Dream Trip</h1>
+                    <p class="mb-4">Ready to explore the world? Fill out our booking form and let us handle the rest. From flights to accommodations, we've got you covered.</p>
+                    <p class="mb-4">Our team of travel experts will ensure your journey is seamless, memorable, and tailored to your preferences.</p>
+                    <a href="#booking-form" class="btn btn-primary"><i class="fas fa-calendar-check me-2"></i>Start Booking</a>
+                </div>
+                <div class="col-md-6 text-center">
+                    <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&h=400&fit=crop" alt="Travel Booking" class="img-fluid rounded-3 shadow-lg float-animation" style="border-radius: 20px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Steps -->
+    <section class="py-5 fade-in-up" style="background: rgba(255, 255, 255, 0.9);">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5 section-title">How It Works</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4 stagger-card fade-in-up">
+                    <div class="card shadow h-100 step-card">
+                        <div class="step-number">1</div>
+                        <h5 class="fw-bold mb-3">Choose Destination</h5>
+                        <p>Browse our extensive list of destinations and select your dream location from our curated packages.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 stagger-card fade-in-up">
+                    <div class="card shadow h-100 step-card">
+                        <div class="step-number">2</div>
+                        <h5 class="fw-bold mb-3">Fill Booking Form</h5>
+                        <p>Complete our simple booking form with your travel details, preferences, and any special requirements.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 stagger-card fade-in-up">
+                    <div class="card shadow h-100 step-card">
+                        <div class="step-number">3</div>
+                        <h5 class="fw-bold mb-3">Confirm & Travel</h5>
+                        <p>Review your booking details, make payment, and get ready for an unforgettable journey!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section class="py-5 fade-in-up" style="background: rgba(255, 255, 255, 0.9);" id="booking-form">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5 section-title">Book Your Trip</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="card shadow">
+                        <div class="card-body p-5">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Full Name *</label>
+                                        <input type="text" class="form-control" placeholder="Enter your full name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Email Address *</label>
+                                        <input type="email" class="form-control" placeholder="Enter your email" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Phone Number *</label>
+                                        <input type="tel" class="form-control" placeholder="Enter your phone number" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Number of Travelers *</label>
+                                        <select class="form-select" required>
+                                            <option value="">Select number</option>
+                                            <option value="1">1 Person</option>
+                                            <option value="2">2 People</option>
+                                            <option value="3">3 People</option>
+                                            <option value="4">4 People</option>
+                                            <option value="5">5+ People</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Destination *</label>
+                                        <select class="form-select" required>
+                                            <option value="">Select destination</option>
+                                            <option value="Goa">Goa</option>
+                                            <option value="Manali">Manali</option>
+                                            <option value="Kerala">Kerala</option>
+                                            <option value="Jaipur">Jaipur</option>
+                                            <option value="Delhi">Delhi</option>
+                                            <option value="Agra">Agra</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Travel Package *</label>
+                                        <select class="form-select" required>
+                                            <option value="">Select package</option>
+                                            <option value="beach">Beach Package</option>
+                                            <option value="adventure">Adventure Package</option>
+                                            <option value="cultural">Cultural Package</option>
+                                            <option value="romantic">Romantic Package</option>
+                                            <option value="family">Family Package</option>
+                                            <option value="custom">Custom Package</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Travel Date *</label>
+                                        <input type="date" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Return Date *</label>
+                                        <input type="date" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Budget Range</label>
+                                        <select class="form-select">
+                                            <option value="">Select budget range</option>
+                                            <option value="economy">Economy (₹10,000 - ₹25,000)</option>
+                                            <option value="standard">Standard (₹25,000 - ₹50,000)</option>
+                                            <option value="premium">Premium (₹50,000 - ₹1,00,000)</option>
+                                            <option value="luxury">Luxury (₹1,00,000+)</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">Accommodation Type</label>
+                                        <select class="form-select">
+                                            <option value="">Select accommodation</option>
+                                            <option value="budget">Budget Hotel</option>
+                                            <option value="standard">Standard Hotel</option>
+                                            <option value="premium">Premium Resort</option>
+                                            <option value="luxury">Luxury Resort</option>
+                                            <option value="villa">Private Villa</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Special Requests</label>
+                                    <textarea class="form-control" rows="3" placeholder="Any special requirements, dietary restrictions, or preferences?"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Transportation Preference</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="transport" id="flight" value="flight">
+                                                <label class="form-check-label" for="flight">
+                                                    <i class="fas fa-plane me-2"></i>Flight
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="transport" id="train" value="train">
+                                                <label class="form-check-label" for="train">
+                                                    <i class="fas fa-train me-2"></i>Train
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="transport" id="bus" value="bus">
+                                                <label class="form-check-label" for="bus">
+                                                    <i class="fas fa-bus me-2"></i>Bus
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="terms" required>
+                                        <label class="form-check-label" for="terms">
+                                            I agree to the <a href="#" class="text-decoration-none">Terms and Conditions</a> and <a href="#" class="text-decoration-none">Privacy Policy</a>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-success w-100 btn-lg"><i class="fas fa-paper-plane me-2"></i>Submit Booking Request</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Packages -->
+    <section class="py-5 fade-in-up" style="background: rgba(255, 255, 255, 0.9);">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5 section-title">Popular Packages</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4 stagger-card fade-in-up">
+                    <div class="card shadow">
+                        <img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=400&h=250&fit=crop" class="card-img-top" alt="Goa">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Goa Beach Paradise</h5>
+                            <p class="card-text">5 Days / 4 Nights</p>
+                            <p class="text-success fw-bold fs-5">₹15,444</p>
+                            <a href="#booking-form" class="btn btn-primary w-100"><i class="fas fa-ticket-alt me-2"></i>Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 stagger-card fade-in-up">
+                    <div class="card shadow">
+                        <img src="https://images.unsplash.com/photo-1589308078059-be1415eab4c3?w=400&h=250&fit=crop" class="card-img-top" alt="Manali">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Manali Adventure</h5>
+                            <p class="card-text">6 Days / 5 Nights</p>
+                            <p class="text-success fw-bold fs-5">₹18,499</p>
+                            <a href="#booking-form" class="btn btn-primary w-100"><i class="fas fa-ticket-alt me-2"></i>Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 stagger-card fade-in-up">
+                    <div class="card shadow">
+                        <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=400&h=250&fit=crop" class="card-img-top" alt="Kerala">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Kerala Backwaters</h5>
+                            <p class="card-text">4 Days / 3 Nights</p>
+                            <p class="text-success fw-bold fs-5">₹12,999</p>
+                            <a href="#booking-form" class="btn btn-primary w-100"><i class="fas fa-ticket-alt me-2"></i>Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-5 fade-in-up" style="background: rgba(255, 255, 255, 0.9);">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5 section-title">What Our Travelers Say</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4 stagger-card fade-in-up">
+                    <div class="card shadow testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop" alt="Customer" class="testimonial-img">
+                        <p class="fst-italic">"Amazing experience! ChaloChale made our honeymoon trip to Kerala unforgettable. The booking process was smooth and the service was exceptional."</p>
+                        <h6 class="fw-bold">Priya Singh</h6>
+                        <p class="text-muted small">Kerala Trip</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 stagger-card fade-in-up">
+                    <div class="card shadow testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop" alt="Customer" class="testimonial-img">
+                        <p class="fst-italic">"Best travel agency I've ever used! The Manali adventure package was perfectly planned. Highly recommend for anyone looking for hassle-free travel."</p>
+                        <h6 class="fw-bold">Rahul Verma</h6>
+                        <p class="text-muted small">Manali Trip</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 stagger-card fade-in-up">
+                    <div class="card shadow testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop" alt="Customer" class="testimonial-img">
+                        <p class="fst-italic">"Our family trip to Goa was magical! The kids loved it and we relaxed completely. Thank you ChaloChale for the wonderful memories!"</p>
+                        <h6 class="fw-bold">Anita Sharma</h6>
+                        <p class="text-muted small">Goa Family Trip</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-5 fade-in-up" style="background: rgba(255, 255, 255, 0.9);">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5 section-title">Frequently Asked Questions</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="accordion shadow" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    <i class="fas fa-question-circle me-2"></i>How do I make a booking?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Simply fill out our booking form above with your travel details, select your destination and package, and submit. Our team will contact you within 24 hours to confirm your booking.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    <i class="fas fa-question-circle me-2"></i>What payment methods do you accept?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We accept all major credit/debit cards, UPI payments, net banking, and wallet payments. Payment can be made in installments for your convenience.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    <i class="fas fa-question-circle me-2"></i>Can I cancel or modify my booking?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, bookings can be cancelled or modified up to 7 days before travel date. Cancellation charges may apply depending on how close to the travel date the cancellation is made.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    <i class="fas fa-question-circle me-2"></i>Do you offer custom travel packages?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Absolutely! We specialize in creating custom travel packages tailored to your preferences, budget, and travel dates. Contact us with your requirements and we'll create a personalized itinerary for you.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    <i class="fas fa-question-circle me-2"></i>Is travel insurance included?
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Basic travel insurance is included in all our packages. We also offer comprehensive travel insurance upgrades for additional coverage including medical emergencies, trip cancellations, and lost baggage.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 fade-in-up" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="container text-center">
+            <h2 class="text-white fw-bold mb-4">Need Help With Your Booking?</h2>
+            <p class="text-white mb-4">Our travel experts are available 24/7 to assist you with your booking and travel planning</p>
+            <a href="contact.html" class="btn btn-warning btn-lg me-3"><i class="fas fa-phone me-2"></i>Contact Us</a>
+            <a href="#" class="btn btn-primary btn-lg"><i class="fab fa-whatsapp me-2"></i>WhatsApp</a>
+        </div>
+    </section>
+
     <!--footer section-->
     <footer class="bg-dark text-white text-center py-3">
         <p class="mb-0">
@@ -49,6 +1016,63 @@
         </p>
 
     </footer>
+    
+    <script>
+        // Loading Screen
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+            }, 1500);
+        });
+        
+        // Particle Effect
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        createParticles();
+        
+        // Scroll Animation
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        
+        const elementInView = (el, dividend = 1) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (
+                elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+            );
+        };
+        
+        const displayScrollElement = (element) => {
+            element.classList.add('visible');
+        };
+        
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el, 1.25)) {
+                    displayScrollElement(el);
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', () => {
+            handleScrollAnimation();
+        });
+        
+        // Initial check
+        handleScrollAnimation();
+    </script>
 </body>
 
 </html>
